@@ -58,4 +58,11 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+config :roxie, Roxie.Endpoint,
+  secret_key_base: System.get_env("SECRET_BASE_KEY"),
+  master_key: System.get_env("MASTER_KEY")
+
+config :roxie, Roxie.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 20 # The amount of database connections in the pool
