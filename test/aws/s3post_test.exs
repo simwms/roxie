@@ -5,28 +5,12 @@ defmodule Roxie.S3postTest do
     assert 1+1 == 2
   end
 
-  @aws_params %{bucket: "test", starts_with: "test", date: Aws.short_date}
+  @aws_params %{ "bucket" => "test", "filename" => "dog/test.txt"}
   test "aws generate" do
     %{signature: signature, policy: policy} = @aws_params |> Aws.generate 
     assert signature
     assert policy
   end
-
-  test "posting to aws" do
-    %{signature: signature, policy: policy, credentials: c} = Aws.generate
-    list = %{
-      "acl" => "public-read",
-      "key" => "simwms/test.html",
-      "Content-Type" => "text/html",
-      "AWSAccessKeyId" => c,
-      "policy" => policy,
-      "signature" => "donkey punch",
-      "file" => "this is a test of the s3 direct upload system"
-    } |> Fox.DictExt.shallowify_keys
-    {:ok, resp} = S3post.post "simwms", {:form, list}, [content_type: "multipart/form-data"]
-    refute resp
-  end
-
 
   test "hmac_sha256 parameter ordering" do
     a = "dog"

@@ -15,7 +15,7 @@ defmodule Aws do
   }
   
   @spec generate(params) :: output 
-  def generate(params) do
+  def generate(params\\%{}) do
     params = params |> set_defaults
 
     policy = params |> Aws.PoliGen.policy
@@ -28,6 +28,7 @@ defmodule Aws do
       signature: signature,
       policy64: policy64,
       policy: policy,
+      key: params["filename"],
       bucket: params["bucket"],
       access_key_id: params["access_key_id"]
     }

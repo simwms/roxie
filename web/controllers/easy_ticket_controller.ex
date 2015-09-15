@@ -5,7 +5,7 @@ defmodule Roxie.EasyTicketController do
   def show(conn, %{"access_key_id" => k, "secret_access_key" => s, "filename" => f}=p) when is_binary(k) and is_binary(s) and is_binary(f) do
     ticket = p |> EasyTicket.generate
     conn
-    |> render(Roxie.TicketView, "ticket.json", ticket: ticket)
+    |> render(Roxie.TicketView, "show.json", ticket: ticket)
   end
 
   @required_keys ~w(access_key_id secret_access_key filename)

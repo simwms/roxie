@@ -2,16 +2,17 @@ defmodule Roxie.TicketView do
   use Roxie.Web, :view
 
   def render("index.json", %{tickets: tickets}) do
-    %{data: render_many(tickets, Roxie.TicketView, "ticket.json")}
+    %{tickets: render_many(tickets, Roxie.TicketView, "ticket.json")}
   end
 
   def render("show.json", %{ticket: ticket}) do
-    %{data: render_one(ticket, Roxie.TicketView, "ticket.json")}
+    %{ticket: render_one(ticket, Roxie.TicketView, "ticket.json")}
   end
 
   def render("ticket.json", %{ticket: ticket}) do
     %{id: ticket.signature,
       acl: ticket.acl,
+      key: ticket.key,
       bucket: ticket.bucket,
       policy: ticket.policy,
       policy64: ticket.policy64,

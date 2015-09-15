@@ -26,9 +26,17 @@ defmodule Aws.PoliGen do
         %{"key" => key},
         %{"acl" => "public-read"},
         %{"bucket" => bucket}
-      ]
+      ] ++ other_nonessential_conditions(p)
     }
   end
+
+  def other_nonessential_conditions(%{"storage_class" => "REDUCED_REDUNDANCY"}=p) do
+    p 
+    |> Dict.delete("storage_class")
+    |> other_nonessential_conditions
+    |> Kernel.++([%{"x-amz-storage-class" => "REDUCED_REDUNDANCY"}])
+  end
+  def other_nonessential_conditions(_), do: []
 
   def some_time(params) do
     []

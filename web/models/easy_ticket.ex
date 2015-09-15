@@ -3,6 +3,7 @@ defmodule Roxie.EasyTicket do
   @type t :: %Roxie.EasyTicket{
     signature: String.t,
     acl: String.t,
+    key: String.t,
     bucket: String.t,
     policy64: String.t,
     policy: Map.t,
@@ -12,6 +13,7 @@ defmodule Roxie.EasyTicket do
     expires_at: String.t
   }
   defstruct acl: "public-read",
+    key: "",
     bucket: "",
     policy64: "",
     policy: %{},
@@ -32,6 +34,7 @@ defmodule Roxie.EasyTicket do
       access_key_id: aws.access_key_id,
       bucket: aws.bucket,
       expires_at: aws.policy["expiration"],
+      key: params["filename"],
       post_url: infer_post_url(aws),
       show_url: infer_post_url(aws) |> Path.join(params["filename"])
     }
